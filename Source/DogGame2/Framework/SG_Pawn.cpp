@@ -5,14 +5,14 @@
 
 namespace
 {
-float FOVTan(float FOVDegrees)
+double FOVTan(double FOVDegrees)
 {
-    return FMath::Tan(FMath::DegreesToRadians(FOVDegrees * 0.5f));
+    return FMath::Tan(FMath::DegreesToRadians(FOVDegrees * 0.5));
 }
-float VerticalFOV(float HorFOVDegrees, float ViewportAspectHW)
+double VerticalFOV(double HorFOVDegrees, double ViewportAspectHW)
 {
     // https://en.m.wikipedia.org/wiki/Field_of_view_in_video_games
-    return FMath::RadiansToDegrees(2.0f * FMath::Atan(FMath::Tan(FMath::DegreesToRadians(HorFOVDegrees) * 0.5f) * ViewportAspectHW));
+    return FMath::RadiansToDegrees(2.0 * FMath::Atan(FMath::Tan(FMath::DegreesToRadians(HorFOVDegrees) * 0.5) * ViewportAspectHW));
 }
 
 }  // namespace
@@ -52,13 +52,13 @@ void ASG_Pawn::OnViewportResized(FViewport* Viewport, uint32 Val)
 {
     if (!Viewport || Viewport->GetSizeXY().Y == 0 || Dim.height == 0) return;
 
-    const float WorldWidth = Dim.width * CellSize;
-    const float WorldHeight = Dim.height * CellSize;
+    const double WorldWidth = Dim.width * CellSize;
+    const double WorldHeight = Dim.height * CellSize;
 
-    float LocationZ = 0.0f;
+    double LocationZ = 0.0;
 
-    const float ViewportAspect = static_cast<float>(Viewport->GetSizeXY().X) / Viewport->GetSizeXY().Y;
-    const float GridAspect = static_cast<float>(Dim.width) / Dim.height;
+    const double ViewportAspect = static_cast<double>(Viewport->GetSizeXY().X) / Viewport->GetSizeXY().Y;
+    const double GridAspect = static_cast<double>(Dim.width) / Dim.height;
 
     if (ViewportAspect <= GridAspect)
     {
@@ -67,10 +67,10 @@ void ASG_Pawn::OnViewportResized(FViewport* Viewport, uint32 Val)
     else
     {
         check(ViewportAspect);
-        const float VFOV = VerticalFOV(Camera->FieldOfView, 1.0f / ViewportAspect);
+        const float VFOV = VerticalFOV(Camera->FieldOfView, 1.0 / ViewportAspect);
         LocationZ = WorldHeight / FOVTan(VFOV);
     }
 
-    const FVector NewPawnLocation = GridOrigin.GetLocation() + 0.5f * FVector(WorldHeight, WorldWidth, LocationZ);
+    const FVector NewPawnLocation = GridOrigin.GetLocation() + 0.5 * FVector(WorldHeight, WorldWidth, LocationZ);
     SetActorLocation(NewPawnLocation);
 }

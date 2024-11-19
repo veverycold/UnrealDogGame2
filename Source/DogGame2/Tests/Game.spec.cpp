@@ -6,10 +6,10 @@
 #include "Misc/AutomationTest.h"
 #include "DogGame2/Core/Game.h"
 
-DEFINE_SPEC(FDogGame, "Dog",
+DEFINE_SPEC(FDogGame2, "Dog",
     EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter | EAutomationTestFlags::HighPriority)
 
-void FDogGame::Define()
+void FDogGame2::Define()
 {
     using namespace Dog;
 
